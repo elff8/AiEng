@@ -241,7 +241,8 @@ namespace BackEnd.Controllers
 
 			if (request.AudioData.ContentType != "audio/wav" &&
 				request.AudioData.ContentType != "audio/x-wav" &&
-				request.AudioData.ContentType != "audio/mpeg")
+				request.AudioData.ContentType != "audio/mpeg" &&
+				request.AudioData.ContentType != "audio/wave")
 			{
 				return BadRequest("Only WAV or MP3 files are supported");
 			}
@@ -254,7 +255,7 @@ namespace BackEnd.Controllers
 			using var client = new HttpClient();
 			using var content = new MultipartFormDataContent();
 
-			content.Add(new ByteArrayContent(audioBytes), "audio", "audio.wav");
+			content.Add(new ByteArrayContent(audioBytes), "file", "audio.wav");
 			content.Add(new StringContent(request.Word), "word");//?
 
 			try
