@@ -1,8 +1,7 @@
-from fastapi import FastAPI, File, Form, UploadFile
+from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import JSONResponse
-import subprocess
-import uuid
-import os
+import uuid, os
+from pronunciation_scoring.predict import predict_score
 
 app = FastAPI()
 
@@ -20,17 +19,13 @@ async def predict_audio(
         f.write(await file.read())
 
     try:
-        result = subprocess.run(
-            ["python", "pronunciation_scoring/predict.py", "--word", word, "--audio", temp_path],
-            capture_output=True, text=True
+        score = predict_score(word, temp_path)
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"error": "Model execution failed", "details": str(e)}
         )
     finally:
         os.remove(temp_path)
 
-    if result.returncode != 0:
-        return JSONResponse(
-            status_code=500,
-            content={"error": "Model execution failed", "details": result.stderr}
-        )
-
-    return {"score": result.stdout.strip()}
+    return {"score": f"{score}/10"}
