@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "BackEnd": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+        //"DB_CONNECTION": "Host=localhost;Port=5432;Database=ApplicationEnglish;Username=postgres;Password=admin123admin789"
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "http://localhost:5000"
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json"
+}
